@@ -1,0 +1,53 @@
+# 0012 AC41, 0011 AC5: an agent workspace finds a company by RC number and requests access; the request appears
+# under Requests as pending with "No access until the company approves", and shows no client yet.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Switch context"
+    timeout: 30000
+- tapOn: "Switch context"
+- tapOn: "Sample Agency.*"
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 20000
+- tapOn:
+    text: "Clients, tab.*"
+    retryTapIfNoChange: true
+- tapOn: "Find a company.*"
+- tapOn:
+    text: "Registration number"
+    index: 1
+- inputText: "1234567"
+- pressKey: Enter
+- tapOn:
+    text: "Company name"
+    index: 1
+- inputText: "Sample Holdings Limited"
+- pressKey: Enter
+- tapOn: "Find company"
+- extendedWaitUntil:
+    visible: "No access until the company approves."
+    timeout: 15000
+- tapOn: "Request access"
+- tapOn: "View company details & business activities"
+- tapOn: "Edit company details & business activities"
+- scrollUntilVisible:
+    element: "CAC & Corporate Affairs"
+- tapOn: "CAC & Corporate Affairs"
+- scrollUntilVisible:
+    element: "Send request"
+- tapOn: "Send request"
+- extendedWaitUntil:
+    visible: "Request sent"
+    timeout: 20000
+- assertVisible: ".*No access until the company approves.*"
+- tapOn: "See requests"
+- extendedWaitUntil:
+    visible: ".*Sample Holdings Limited.*"
+    timeout: 15000
+- takeScreenshot: 12-agent-request-pending
