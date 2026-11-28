@@ -1,0 +1,18 @@
+# 0012 AC10 and AC35, 0011 AC10: a signed-out user opens an invitation link, signs in, and returns to the same
+# invitation; accepting makes the company appear. Env: LINK (companyhouse://invitations/accept?token=...).
+appId: ng.companyhouse.app
+---
+- runFlow: _launch.yaml
+- openLink: ${LINK}
+- tapOn:
+    text: "Open"
+    optional: true
+- runFlow:
+    file: _login-form.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: ".*Sample Holdings Limited.*"
+    timeout: 30000
+- takeScreenshot: 05-invitation-after-signin

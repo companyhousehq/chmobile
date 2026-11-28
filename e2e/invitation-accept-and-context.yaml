@@ -1,0 +1,31 @@
+# 0012 AC9/AC35 accept, 0011 AC3 and AC5: continues on the invitation screen from invitation-deeplink.yaml.
+# After accepting, sign out and sign in again on a "new device": lands on the company, switcher lists the company
+# first and "Your agent workspaces"; after switching to the agent workspace and relaunching, the app opens there.
+appId: ng.companyhouse.app
+---
+- tapOn: "Accept invitation"
+- extendedWaitUntil:
+    visible: ".*Sample Holdings Limited.*"
+    timeout: 20000
+- runFlow: _signout.yaml
+- runFlow:
+    file: _login-form.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Your role: Viewer"
+    timeout: 30000
+- tapOn: "Switch context"
+- assertVisible: "Your companies"
+- assertVisible: "Your agent workspaces"
+- takeScreenshot: 06-context-switcher
+- tapOn: "Sample Agency.*"
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 20000
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 30000
