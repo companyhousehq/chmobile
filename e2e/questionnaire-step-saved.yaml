@@ -1,0 +1,25 @@
+# 0012 AC32: an Owner answers the first industry step and saves; the step is saved to the API (version-listed
+# "Saved to Company House") and the profile does not show complete. Backgrounding keeps the device draft.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-owner@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- tapOn:
+    text: "Business activity.*"
+    retryTapIfNoChange: true
+- tapOn: "Start"
+- extendedWaitUntil:
+    visible: "How is the business registered?"
+    timeout: 15000
+- tapOn: "Company \\(limited by shares or guarantee\\)"
+- tapOn: "Food and beverage manufacturing"
+- scrollUntilVisible:
+    element: "Save and continue"
+- takeScreenshot: 10-questionnaire-step
+- tapOn: "Save and continue"
+- extendedWaitUntil:
+    visible: "Step 2 of.*"
+    timeout: 20000

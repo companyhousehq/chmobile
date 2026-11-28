@@ -1,0 +1,45 @@
+# 0012 AC37, AC39: an Owner opens Agents & advisers (from the tab bar), sees who asks,
+# whether they are verified, what and which areas, expiry; then allows. Needs a pending request from
+# agent-request-access.yaml.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-owner@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Your role: Owner"
+    timeout: 30000
+- extendedWaitUntil:
+    visible: "Agents & advisers, tab.*"
+    timeout: 20000
+- tapOn:
+    text: "Agents & advisers, tab.*"
+    retryTapIfNoChange: true
+- extendedWaitUntil:
+    visible: "Waiting for you.*"
+    timeout: 15000
+- assertVisible: "Sample Agency"
+- assertVisible: "Not verified yet"
+- assertVisible: "Request expires.*"
+- assertVisible: "CAC & Corporate Affairs"
+- tapOn: "Review"
+- extendedWaitUntil:
+    visible: "Allow with limits"
+    timeout: 15000
+- assertVisible: "Decline"
+- takeScreenshot: 13-owner-review-request
+- tapOn: "Allow access"
+# Native confirm: title and button are both "Allow access"; the button sits under the message.
+- extendedWaitUntil:
+    visible: "Sample Agency:.*"
+    timeout: 10000
+- tapOn:
+    text: "Allow access"
+    below: "Sample Agency:.*"
+- extendedWaitUntil:
+    visible: "Access allowed."
+    timeout: 20000
+- assertVisible: "Active"
+- assertVisible: "Decided by Dev Owner.*"

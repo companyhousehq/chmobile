@@ -1,0 +1,18 @@
+# Shared subflow: fill the sign-in form on the sign-in screen. Env: EMAIL, PASSWORD. Inputs are targeted by
+# their accessibility labels; the visible caption carries the same text, so the input is the second match.
+appId: ng.companyhouse.app
+---
+- tapOn:
+    text: "Email address"
+    index: 1
+- inputText: ${EMAIL}
+- tapOn:
+    text: "Password"
+    index: 1
+- inputText: ${PASSWORD}
+- tapOn:
+    text: "Sign in"
+    below: "Password"
+- tapOn:
+    text: "Not Now"
+    optional: true

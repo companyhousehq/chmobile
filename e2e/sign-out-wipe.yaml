@@ -1,0 +1,20 @@
+# 0011 AC7 (user sign-out), 0012 AC29 and R18: after loading company screens and signing out, the app is on
+# sign-in; the QA shell step then greps the app container for company data and tokens (none expected).
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-owner@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Business activity.*"
+    timeout: 30000
+- tapOn: "Business activity.*"
+- extendedWaitUntil:
+    visible: "No answers yet.*"
+    timeout: 15000
+- tapOn:
+    id: "BackButton"
+- runFlow: _signout.yaml
+- assertVisible: "Email address"

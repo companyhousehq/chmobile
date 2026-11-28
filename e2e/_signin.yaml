@@ -1,0 +1,9 @@
+# Shared subflow: fresh launch, then sign in. Env: EMAIL, PASSWORD.
+appId: ng.companyhouse.app
+---
+- runFlow: _launch.yaml
+- runFlow:
+    file: _login-form.yaml
+    env:
+      EMAIL: ${EMAIL}
+      PASSWORD: ${PASSWORD}

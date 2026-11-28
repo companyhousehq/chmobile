@@ -1,0 +1,19 @@
+# 0012 AC40: continues on the client screen of agent-client-access.yaml after the Owner removed access via the
+# API. The next load shows "You no longer have access" and the client leaves the Clients list.
+appId: ng.companyhouse.app
+---
+- tapOn:
+    id: "BackButton"
+- tapOn:
+    id: "BackButton"
+    optional: true
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 20000
+- tapOn:
+    text: "Clients, tab.*"
+    retryTapIfNoChange: true
+- extendedWaitUntil:
+    visible: "No clients yet.*"
+    timeout: 20000
+- assertNotVisible: "Sample Holdings Limited.*"

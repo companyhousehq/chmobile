@@ -1,0 +1,8 @@
+# Shared subflow: fresh install state; the debug build connects to Metro on its own.
+appId: ng.companyhouse.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Email address"
+    timeout: 60000

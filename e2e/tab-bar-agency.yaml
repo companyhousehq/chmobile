@@ -1,0 +1,32 @@
+# 0012 AC44, 0011 AC5 (D3 re-check): in the agency context, Clients, Team and Workspace load from the tab bar.
+# Signs in as dev-agent (Owner of Sample Agency, also a company Viewer), switches to the agent workspace.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Switch context"
+    timeout: 30000
+- tapOn: "Switch context"
+- tapOn: "Sample Agency.*"
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 20000
+- tapOn: "Clients, tab.*"
+- extendedWaitUntil:
+    notVisible: "Loading.*"
+    timeout: 15000
+- takeScreenshot: 22-tab-clients
+- tapOn: "Team, tab.*"
+- extendedWaitUntil:
+    notVisible: "Loading.*"
+    timeout: 15000
+- assertVisible: "Dev Agent.*"
+- tapOn: "Workspace, tab.*"
+- extendedWaitUntil:
+    notVisible: "Loading.*"
+    timeout: 15000
+- assertVisible: "Sample Agency.*"

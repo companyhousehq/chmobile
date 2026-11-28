@@ -1,0 +1,40 @@
+# 0012 AC42, AC40: with access approved, the agent workspace lists the company under Clients and offers editing
+# (edit scope, Owner in the workspace). Continue with revoked-client.yaml after the Owner removes access.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Switch context"
+    timeout: 30000
+- tapOn: "Switch context"
+- tapOn: "Sample Agency.*"
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 20000
+- tapOn:
+    text: "Clients, tab.*"
+    retryTapIfNoChange: true
+- extendedWaitUntil:
+    visible: "Sample Holdings Limited.*"
+    timeout: 20000
+- scroll
+- tapOn: "Open"
+- extendedWaitUntil:
+    visible: "Client company"
+    timeout: 15000
+- tapOn:
+    text: "Registered address"
+    index: 1
+- inputText: "12 QA Street, Lagos"
+- pressKey: Enter
+- scrollUntilVisible:
+    element: "Save changes"
+- tapOn: "Save changes"
+- extendedWaitUntil:
+    visible: "Last saved by Dev Agent.*"
+    timeout: 15000
+- takeScreenshot: 14-agent-edit-saved
