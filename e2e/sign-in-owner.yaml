@@ -1,0 +1,16 @@
+# 0011 AC1: owner with one company membership signs in and lands on company home; no context switcher.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-owner@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Sample Holdings Limited"
+    timeout: 30000
+- assertVisible: "People, tab.*"
+- assertVisible: "Agents & advisers, tab.*"
+- assertVisible: "Your role: Owner"
+- assertNotVisible: "Switch.*"
+- takeScreenshot: 02-company-home

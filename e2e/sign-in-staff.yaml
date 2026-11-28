@@ -1,0 +1,16 @@
+# 0011 AC6, 0012 AC45: a staff account signing in on the app gets only what any user without memberships gets
+# (the business-owner start, or (staff must have two-factor) the mandatory two-factor enrolment screen); no claim review, staff lookup or MFA reset exists anywhere in the app.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-staff@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "I work for an agency|Confirm it.s you"
+    timeout: 30000
+- assertNotVisible: ".*[Ss]taff.*"
+- assertNotVisible: ".*[Rr]eview.*"
+- assertNotVisible: ".*[Aa]dmin.*"
+- takeScreenshot: 09-staff-sign-in

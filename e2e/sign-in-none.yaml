@@ -1,0 +1,13 @@
+# 0011 AC4: a user with no memberships sees the business-owner start and an "I work for an agency" link.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-claimant@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "I work for an agency"
+    timeout: 30000
+- assertNotVisible: "Switch context"
+- takeScreenshot: 04-no-memberships-start

@@ -1,0 +1,15 @@
+# 0011 AC2: a user who belongs only to an agent workspace lands on agent home, with no business-owner onboarding.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Clients, tab.*"
+    timeout: 30000
+- assertVisible: "Team, tab.*"
+- assertNotVisible: ".*Find your company.*"
+- assertNotVisible: "I work for an agency"
+- assertNotVisible: "Switch context"
