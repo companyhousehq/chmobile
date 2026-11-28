@@ -1,0 +1,1441 @@
+{
+  "definition": {
+    "key": "fixture_form",
+    "version": 1,
+    "content_status": "unverified",
+    "sections": [
+      {
+        "key": "basics",
+        "title": "Basics",
+        "visible_if": null,
+        "questions": [
+          {
+            "key": "kind",
+            "type": "single_select",
+            "label": "Kind",
+            "required": true,
+            "visible_if": null,
+            "options": [
+              {
+                "value": "food",
+                "label": "Food"
+              },
+              {
+                "value": "tech",
+                "label": "Tech"
+              },
+              {
+                "value": "other",
+                "label": "Other"
+              }
+            ]
+          },
+          {
+            "key": "name",
+            "type": "text",
+            "label": "Name",
+            "required": true,
+            "max_length": 10,
+            "visible_if": null
+          },
+          {
+            "key": "notes",
+            "type": "long_text",
+            "label": "Notes",
+            "required": false,
+            "visible_if": null
+          },
+          {
+            "key": "staff",
+            "type": "integer",
+            "label": "Staff",
+            "required": false,
+            "min": 0,
+            "max": 100,
+            "visible_if": null
+          },
+          {
+            "key": "founded",
+            "type": "date",
+            "label": "Founded",
+            "required": false,
+            "visible_if": null
+          },
+          {
+            "key": "year_end",
+            "type": "month_day",
+            "label": "Year end",
+            "required": false,
+            "visible_if": null
+          },
+          {
+            "key": "regulated",
+            "type": "boolean",
+            "label": "Regulated",
+            "required": true,
+            "visible_if": null
+          }
+        ]
+      },
+      {
+        "key": "food",
+        "title": "Food",
+        "visible_if": {
+          "all": [
+            {
+              "q": "kind",
+              "op": "eq",
+              "value": "food"
+            }
+          ]
+        },
+        "questions": [
+          {
+            "key": "products",
+            "type": "multi_select",
+            "label": "Products",
+            "required": true,
+            "max_items": 2,
+            "visible_if": null,
+            "options": [
+              {
+                "value": "bread",
+                "label": "Bread"
+              },
+              {
+                "value": "juice",
+                "label": "Juice"
+              },
+              {
+                "value": "rice",
+                "label": "Rice"
+              }
+            ]
+          },
+          {
+            "key": "licence_no",
+            "type": "text",
+            "label": "Licence number",
+            "required": true,
+            "visible_if": {
+              "any": [
+                {
+                  "q": "regulated",
+                  "op": "is_true"
+                },
+                {
+                  "q": "products",
+                  "op": "contains",
+                  "value": "juice"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "key": "people",
+        "title": "People",
+        "visible_if": {
+          "all": [
+            {
+              "q": "kind",
+              "op": "neq",
+              "value": "other"
+            }
+          ]
+        },
+        "questions": [
+          {
+            "key": "owners",
+            "type": "person_list",
+            "label": "Owners",
+            "required": false,
+            "max_items": 2,
+            "visible_if": null,
+            "fields": [
+              {
+                "key": "full_name",
+                "label": "Full name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "key": "percent",
+                "label": "Percent",
+                "type": "number",
+                "required": false
+              }
+            ]
+          },
+          {
+            "key": "owner_note",
+            "type": "text",
+            "label": "About the owners",
+            "required": true,
+            "visible_if": {
+              "all": [
+                {
+                  "q": "owners",
+                  "op": "answered"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "key": "arrays",
+        "title": "Arrays",
+        "visible_if": {
+          "all": [
+            {
+              "q": "name",
+              "op": "eq",
+              "value": "Arrays"
+            }
+          ]
+        },
+        "questions": [
+          {
+            "key": "tags",
+            "type": "multi_select",
+            "label": "Tags",
+            "required": false,
+            "visible_if": null,
+            "options": [
+              {
+                "value": "a",
+                "label": "A"
+              },
+              {
+                "value": "b",
+                "label": "B"
+              },
+              {
+                "value": "c",
+                "label": "C"
+              }
+            ]
+          },
+          {
+            "key": "tags_eq",
+            "type": "text",
+            "label": "Tags equal a,b",
+            "required": false,
+            "visible_if": {
+              "all": [
+                {
+                  "q": "tags",
+                  "op": "eq",
+                  "value": [
+                    "a",
+                    "b"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "key": "tags_neq",
+            "type": "text",
+            "label": "Tags answered and not a,b",
+            "required": false,
+            "visible_if": {
+              "all": [
+                {
+                  "q": "tags",
+                  "op": "answered"
+                },
+                {
+                  "q": "tags",
+                  "op": "neq",
+                  "value": [
+                    "a",
+                    "b"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "key": "tags_in",
+            "type": "text",
+            "label": "Tags one of [b] or [a,b]",
+            "required": false,
+            "visible_if": {
+              "all": [
+                {
+                  "q": "tags",
+                  "op": "in",
+                  "value": [
+                    [
+                      "b"
+                    ],
+                    [
+                      "a",
+                      "b"
+                    ]
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "key": "crew",
+            "type": "person_list",
+            "label": "Crew",
+            "required": false,
+            "visible_if": null,
+            "fields": [
+              {
+                "key": "full_name",
+                "label": "Full name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "key": "score",
+                "label": "Score",
+                "type": "number",
+                "required": false,
+                "min": 5,
+                "max": 500
+              },
+              {
+                "key": "ratio",
+                "label": "Ratio",
+                "type": "number",
+                "required": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cases": [
+    {
+      "name": "empty answers: required visible questions are missing (neq on an unanswered question holds)",
+      "answers": {},
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "owners"
+        ],
+        "missing": [
+          "kind",
+          "name",
+          "regulated"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "kind other hides the food and people branches",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "kind food shows the food branch; products required",
+      "answers": {
+        "kind": "food",
+        "name": "Acme",
+        "regulated": false
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "products",
+          "owners"
+        ],
+        "missing": [
+          "products"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "licence number required when regulated",
+      "answers": {
+        "kind": "food",
+        "name": "Acme",
+        "regulated": true,
+        "products": [
+          "bread"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "products",
+          "licence_no",
+          "owners"
+        ],
+        "missing": [
+          "licence_no"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "licence number required when products contain juice (any)",
+      "answers": {
+        "kind": "food",
+        "name": "Acme",
+        "regulated": false,
+        "products": [
+          "juice"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "products",
+          "licence_no",
+          "owners"
+        ],
+        "missing": [
+          "licence_no"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "complete food profile",
+      "answers": {
+        "kind": "food",
+        "name": "Acme",
+        "regulated": true,
+        "products": [
+          "bread",
+          "juice"
+        ],
+        "licence_no": "L-1"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "products",
+          "licence_no",
+          "owners"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "owner note appears once owners are answered",
+      "answers": {
+        "kind": "tech",
+        "name": "Acme",
+        "regulated": false,
+        "owners": [
+          {
+            "full_name": "A B",
+            "percent": 40
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "owners",
+          "owner_note"
+        ],
+        "missing": [
+          "owner_note"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "an answer outside the visible branch is not applicable",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "products": [
+          "bread"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.products",
+            "code": "not_applicable"
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown question",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "nope": 1
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.nope",
+            "code": "unknown_question"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid option",
+      "answers": {
+        "kind": "cheese",
+        "name": "Acme",
+        "regulated": false
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "owners"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.kind",
+            "code": "invalid_option"
+          }
+        ]
+      }
+    },
+    {
+      "name": "text too long",
+      "answers": {
+        "kind": "other",
+        "name": "Acme Corporation",
+        "regulated": false
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.name",
+            "code": "too_long"
+          }
+        ]
+      }
+    },
+    {
+      "name": "wrong type",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": "yes"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.regulated",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "integer out of range",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "staff": 101
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.staff",
+            "code": "out_of_range"
+          }
+        ]
+      }
+    },
+    {
+      "name": "integer must be whole",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "staff": 1.5
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.staff",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "invalid date",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "founded": "2026-13-40"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.founded",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "valid month-day and date",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "founded": "2020-02-29",
+        "year_end": "02-29"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "invalid month-day",
+      "answers": {
+        "kind": "other",
+        "name": "Acme",
+        "regulated": false,
+        "year_end": "13-01"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.year_end",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "too many selected items",
+      "answers": {
+        "kind": "food",
+        "name": "Acme",
+        "regulated": false,
+        "products": [
+          "bread",
+          "juice",
+          "rice"
+        ],
+        "licence_no": "x"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "products",
+          "licence_no",
+          "owners"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.products",
+            "code": "too_many_items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "too many people",
+      "answers": {
+        "kind": "tech",
+        "name": "Acme",
+        "regulated": false,
+        "owners": [
+          {
+            "full_name": "A"
+          },
+          {
+            "full_name": "B"
+          },
+          {
+            "full_name": "C"
+          }
+        ],
+        "owner_note": "x"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "owners",
+          "owner_note"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.owners",
+            "code": "too_many_items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person with an undeclared field is rejected",
+      "answers": {
+        "kind": "tech",
+        "name": "Acme",
+        "regulated": false,
+        "owners": [
+          {
+            "full_name": "A",
+            "passport": "X1"
+          }
+        ],
+        "owner_note": "x"
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "owners",
+          "owner_note"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.owners",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "blank answers count as unanswered",
+      "answers": {
+        "kind": "other",
+        "name": "  ",
+        "regulated": false
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [
+          "name"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "name": "eq on an array answer is deep equality (same order matches)",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "tags": [
+          "a",
+          "b"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "tags_eq",
+          "tags_in",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "eq/neq/in on an array answer are order-sensitive",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "tags": [
+          "b",
+          "a"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "tags_neq",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "in matches an array answer equal to one of the listed arrays",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "tags": [
+          "b"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "tags_neq",
+          "tags_in",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "neq on an array answer differing in length",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "tags": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "tags_neq",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "multi_select rejects duplicate values",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "tags": [
+          "a",
+          "a"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "tags_neq",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.tags",
+            "code": "invalid_option"
+          }
+        ]
+      }
+    },
+    {
+      "name": "multi_select max_items defaults to the option count",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "tags": [
+          "a",
+          "b",
+          "c",
+          "a"
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "tags_neq",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.tags",
+            "code": "too_many_items"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list number uses the field min and max (inside)",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "A",
+            "score": 5
+          },
+          {
+            "full_name": "B",
+            "score": 500
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "person_list number below the field min",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "A",
+            "score": 4
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "out_of_range"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list number above the field max",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "A",
+            "score": 501
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "out_of_range"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list number defaults to 0-100 (inside)",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "A",
+            "ratio": 0
+          },
+          {
+            "full_name": "B",
+            "ratio": 100
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "person_list number above the default max",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "A",
+            "ratio": 101
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "out_of_range"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list number below the default min",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "A",
+            "ratio": -1
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "out_of_range"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list required text field rejects whitespace-only",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "   "
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list required text field rejects an empty string",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": ""
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "invalid_type"
+          }
+        ]
+      }
+    },
+    {
+      "name": "person_list text of 200 characters is accepted",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": []
+      }
+    },
+    {
+      "name": "person_list text over 200 characters",
+      "answers": {
+        "kind": "other",
+        "name": "Arrays",
+        "regulated": false,
+        "crew": [
+          {
+            "full_name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        ]
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated",
+          "tags",
+          "crew"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.crew",
+            "code": "too_long"
+          }
+        ]
+      }
+    },
+    {
+      "name": "text rejects a NUL character",
+      "answers": {
+        "kind": "other",
+        "name": "a\u0000b",
+        "regulated": false
+      },
+      "expected": {
+        "visible": [
+          "kind",
+          "name",
+          "notes",
+          "staff",
+          "founded",
+          "year_end",
+          "regulated"
+        ],
+        "missing": [],
+        "errors": [
+          {
+            "field": "answers.name",
+            "code": "too_long"
+          }
+        ]
+      }
+    }
+  ]
+}
