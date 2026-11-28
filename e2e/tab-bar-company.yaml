@@ -1,0 +1,30 @@
+# 0012 AC44, 0011 AC5 (D3 re-check): from the tab bar, company Profile, People and Agents & advisers load data
+# (no endless "Loading"). Run: xcrun simctl keychain <udid> reset; MAESTRO_CLI_NO_ANALYTICS=1 maestro --udid <udid> test e2e/tab-bar-company.yaml
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-owner@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Your role: Owner"
+    timeout: 30000
+- tapOn: "Profile, tab.*"
+- extendedWaitUntil:
+    notVisible: "Loading.*"
+    timeout: 15000
+- assertVisible: "Sample Holdings Limited.*"
+- takeScreenshot: 20-tab-profile
+- tapOn: "People, tab.*"
+- extendedWaitUntil:
+    notVisible: "Loading.*"
+    timeout: 15000
+- assertVisible: "Dev Owner.*"
+- takeScreenshot: 21-tab-people
+- tapOn: "Agents.*, tab.*"
+- extendedWaitUntil:
+    notVisible: "Loading.*"
+    timeout: 15000
+- assertVisible: "Active \\(\\d+\\).*"
+- assertVisible: "Allow someone"

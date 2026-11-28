@@ -1,0 +1,29 @@
+# 0012 AC38 (from the tab bar): dev-agent is a company Viewer (and agency Owner). Agents & advisers shows the lists
+# with no Allow someone / Review / Decline / Remove control.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Your role: Viewer"
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn: "Agents.*, tab.*"
+# Observed: the first tap on Agents & advisers straight after sign-in is sometimes dropped; a second tap loads it.
+- runFlow:
+    when:
+      notVisible: "Active.*"
+    commands:
+      - tapOn: "Agents.*, tab.*"
+- extendedWaitUntil:
+    visible: "Active \\(\\d+\\).*"
+    timeout: 15000
+- assertNotVisible: "Loading.*"
+- assertNotVisible: "Allow someone"
+- assertNotVisible: "Review"
+- assertNotVisible: "Remove.*"
+- assertNotVisible: "Decline"
+- assertVisible: "You can see this list.*"
