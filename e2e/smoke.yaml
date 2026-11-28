@@ -1,0 +1,10 @@
+# Smoke flow: a fresh install shows the sign-in screen.
+# Run against a debug build: `npm run e2e` (Maestro CLI, not installed by npm).
+appId: ng.companyhouse.app
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Sign in"
+- assertVisible: "Email address"
+- assertVisible: "Password"
+- assertVisible: ".*not CAC or a government agency.*"

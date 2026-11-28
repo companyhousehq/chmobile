@@ -1,0 +1,10 @@
+# Shared subflow: sign out from the You tab.
+appId: ng.companyhouse.app
+---
+- tapOn: "You, tab.*"
+- scrollUntilVisible:
+    element: "Sign out"
+- tapOn: "Sign out"
+- extendedWaitUntil:
+    visible: "Email address"
+    timeout: 30000
