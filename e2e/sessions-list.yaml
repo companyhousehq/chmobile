@@ -1,0 +1,22 @@
+# 0012 AC6, 0011 R11: Security > sessions lists this phone as "This device" named "iPhone app", and the other
+# session (an Android client created through the API) as "Android app". Run before revoked-returns-to-signin.yaml.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-owner@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "You, tab.*"
+    timeout: 30000
+- tapOn: "You, tab.*"
+- tapOn: "Security.*"
+- tapOn: "Where you're signed in.*"
+- extendedWaitUntil:
+    visible: "Sessions"
+    timeout: 15000
+- assertVisible: ".*iPhone app.*"
+- assertVisible: ".*This device.*"
+- assertVisible: ".*Android app.*"
+- takeScreenshot: 07-sessions

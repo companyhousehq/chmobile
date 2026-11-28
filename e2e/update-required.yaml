@@ -1,0 +1,9 @@
+# 0011 AC12: run with the API started with MIN_APP_VERSION_IOS above the app version (0.1.0), e.g. 1.0.0.
+# The debug build reaches the API, gets 426 and shows the update prompt.
+appId: ng.companyhouse.app
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Update required"
+    timeout: 30000
+- assertVisible: ".*no longer supported.*"

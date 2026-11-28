@@ -1,0 +1,13 @@
+# 0011 AC7, 0012 AC7: after this session was revoked from another client, the app's next request fails and the
+# app returns to sign-in with the session-ended notice. Continues from sessions-list.yaml (on the Sessions
+# screen) with the iPhone session revoked through the API. Going back and reopening the list issues a request.
+appId: ng.companyhouse.app
+---
+- tapOn:
+    id: "BackButton"
+- tapOn: "Where you're signed in.*"
+- extendedWaitUntil:
+    visible: "Your session has ended.*"
+    timeout: 20000
+- assertVisible: "Email address"
+- takeScreenshot: 08-revoked-signed-out
