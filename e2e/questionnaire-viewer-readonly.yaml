@@ -1,0 +1,27 @@
+# 0012 AC33: a Viewer member opens the company's questionnaire and it is read-only (no Start / Save and
+# continue), answers labelled as declared by the company. dev-agent becomes a Viewer once invitation-deeplink and
+# invitation-accept-and-context have run.
+appId: ng.companyhouse.app
+---
+- runFlow:
+    file: _signin.yaml
+    env:
+      EMAIL: dev-agent@companyhouse.test
+      PASSWORD: companyhouse-dev-only
+- extendedWaitUntil:
+    visible: "Switch context"
+    timeout: 30000
+- tapOn: "Switch context"
+- tapOn: "Sample Holdings Limited.*"
+- extendedWaitUntil:
+    visible: "Your role: Viewer"
+    timeout: 20000
+- tapOn:
+    text: "Business activity.*"
+    retryTapIfNoChange: true
+- extendedWaitUntil:
+    visible: "Declared by your company"
+    timeout: 15000
+- assertNotVisible: "Start"
+- assertNotVisible: "Save and continue"
+- takeScreenshot: 11-viewer-readonly
