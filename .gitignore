@@ -1,0 +1,30 @@
+node_modules/
+.expo/
+dist/
+web-build/
+coverage/
+*.tsbuildinfo
+.DS_Store
+.claude/settings.local.json
+
+# local environment files (use the example file for non-secret defaults)
+.env
+.env.*
+!.env.example
+
+# native build output (ios/ and android/ sources are committed)
+ios/Pods/
+ios/build/
+ios/.xcode.env.local
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+*.keystore
+!android/app/debug.keystore
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+*.hprof
+.sentryclirc
